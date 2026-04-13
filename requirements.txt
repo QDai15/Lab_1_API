@@ -1,8 +1,11 @@
+# Thư viện cho API và Web.
 fastapi
 uvicorn
+pydantic
+requests
+
+# Thư viện AI và xử lý ngôn ngữ.
 torch
 transformers
 sacremoses
-pydantic
-requests
 sentencepiece

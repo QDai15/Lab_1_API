@@ -1,8 +1,9 @@
+# Thư viện mạng và địa chỉ máy chủ.
 import requests
 
-# Địa chỉ API đang chạy trên máy bạn
 BASE_URL = "http://127.0.0.1:8000"
 
+# Kiểm tra máy chủ và chạy thử dịch.
 def test_health():
     print("\n[1] TEST KIỂM TRA SỨC KHỎE (/health)")
     response = requests.get(f"{BASE_URL}/health")
@@ -16,9 +17,9 @@ def test_translation_success():
     print(f" - Mã trạng thái: {response.status_code}")
     print(f" - Dữ liệu trả về: {response.json()}")
 
+# Bắt lỗi chuỗi rỗng và chạy tự động.
 def test_translation_empty_error():
     print("\n[3] TEST LỖI BỎ TRỐNG (/generate)")
-    # Cố tình gửi một chuỗi toàn dấu cách
     payload = {"text": "      "}
     response = requests.post(f"{BASE_URL}/generate", json=payload)
     print(f" - Mã trạng thái: {response.status_code}")
