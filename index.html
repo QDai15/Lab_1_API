@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translator Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --error-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- PHẦN LOGO HIỆN ĐẠI --- */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .modern-logo {
+            width: 48px;
+            height: 48px;
+            filter: drop-shadow(0 4px 6px rgba(37, 99, 235, 0.3));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        /* -------------------------- */
+
+        .translator-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        @media (min-width: 768px) {
+            .translator-container {
+                flex-direction: row;
+            }
+        }
+
+        .box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .box:focus-within {
+            border-color: #bfdbfe;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .language-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        textarea, .result-box {
+            width: 100%;
+            height: 200px;
+            border: none;
+            resize: none;
+            font-size: 1.15rem;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .result-box {
+            overflow-y: auto;
+            color: var(--text-main);
+        }
+
+        .result-box.empty {
+            color: #94a3b8;
+        }
+
+        .result-box.error {
+            color: var(--error-color);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .btn-translate {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-translate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-translate:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-container">
+            <svg class="modern-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="48" height="48" rx="14" fill="url(#paint0_linear)"/>
+                <path d="M14 16H24M19 12V16M14 26C14 26 18.5 25.5 21.5 21M26 16C26 16 23.5 24.5 16 30M34 32L28 16L22 32M24 28H32" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="paint0_linear" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#3B82F6"/>
+                        <stop offset="1" stop-color="#1E3A8A"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <h1>AI Translator Pro</h1>
+        </div>
+        <p>Hệ thống dịch thuật chuẩn xác sử dụng trí tuệ nhân tạo</p>
+    </div>
+
+    <div class="translator-container">
+        <div class="box">
+            <div class="language-label">
+                <i class="fa-solid fa-earth-americas"></i> Tiếng Anh
+            </div>
+            <textarea id="englishText" placeholder="Nhập văn bản tiếng Anh cần dịch vào đây..."></textarea>
+        </div>
+
+        <div class="box">
+            <div class="language-label">
+                <i class="fa-solid fa-language"></i> Tiếng Việt
+            </div>
+            <div id="result" class="result-box empty">Bản dịch sẽ xuất hiện tại đây...</div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button id="translateBtn" class="btn-translate" onclick="dichNgonNgu()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Dịch ngay
+        </button>
+    </div>
+
+    <script>
+        async function dichNgonNgu() {
+            const textToTranslate = document.getElementById('englishText').value;
+            const resultBox = document.getElementById('result');
+            const btn = document.getElementById('translateBtn');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang phân tích...';
+            resultBox.className = 'result-box'; 
+            resultBox.innerText = "Đang xử lý ngôn ngữ...";
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: textToTranslate })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultBox.innerText = data.vietnamese;
+                } else {
+                    resultBox.innerText = "⚠️ Lỗi: " + data.detail;
+                    resultBox.className = 'result-box error';
+                }
+            } catch (error) {
+                resultBox.innerText = "❌ Lỗi kết nối! Server API có thể đang tắt. Vui lòng kiểm tra lại Terminal.";
+                resultBox.className = 'result-box error';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Dịch ngay';
+            }
+        }
+    </script>
+
+</body>
+</html>
