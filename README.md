@@ -62,3 +62,4 @@ Response thành công:
 ```
 
 ## 7. Liên kết video demo
+https://drive.google.com/file/d/1g1Ebr_jJ0PDvijIRPuadKM-EWOWTR-39/view?usp=sharing
